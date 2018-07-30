@@ -22,6 +22,11 @@ def parseLogLine1(log: String) :
  LogRecord = {  
    log match {  case PATTERN(host, group2, group3,timeStamp,group5,url,group7,httpCode,group8) => LogRecord(s"$host",s"$timeStamp",s"$url", s"$httpCode".toInt) 
 		case _ => LogRecord("Empty", "", "",  -1 )}}
+
+
+def topLogRecord (){
+	accessDf.select($"url").filter(upper($"url").like("%HTML%")).groupBy($"url").agg(count("*").alias("cnt")).orderBy(desc("cnt")).limit(10).show()
+}
  
 
 val logFile = sc.textFile("/data/spark/project/NASA_access_log_Aug95.gz")
