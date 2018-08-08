@@ -26,6 +26,8 @@ def parseLogLine1(log: String) :
 
 def topLogRecord (){
 	accessDf.select($"url").filter(upper($"url").like("%HTML%")).groupBy($"url").agg(count("*").alias("cnt")).orderBy(desc("cnt")).limit(10).show()
+       accessDf.withColumn("Date",unix_timestamp(accessDf.col("timeStamp"), "dd/MMM/yyyy:HH:mm:ss").cast("timestamp")).withColumn("unix_ts" , unix_timestamp($"Date") ).withColumn("year", year(col("Date"))).withColumn("month", mont
+h(col("Date"))).withColumn("day", dayofmonth(col("Date"))).withColumn("hour", hour(col("Date"))).withColumn("weekday",from_unixtime(unix_timestamp($"Date", "MM/dd/yyyy"), "EEEEE")).show()
 }
  
 
