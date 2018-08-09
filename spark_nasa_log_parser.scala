@@ -20,6 +20,8 @@ println("highTrafficHour")
 highTrafficHour(inputData).show
 println("lowTrafficHour")
 lowTrafficHour(inputData).show
+println("countByHTTP")
+countByHTTP(inputData).show
 
 
 
@@ -57,6 +59,14 @@ def lowTrafficHour (input: DataFrame): DataFrame = {
 	 input.select($"hour").groupBy($"hour").agg(count("*").alias("count_hour")).orderBy(asc("count_hour")).limit(5)
 	 
  }
+
+def countByHTTP (input: DataFrame): DataFrame = {
+	 input.select($"httpCode").groupBy($"httpCode").agg(count("*").alias("count_httpCode"))
+	 
+ }
+
+
+
 
 
 
